@@ -1,56 +1,72 @@
-import React, {useState} from 'react';
+import React, { useEffect, useState } from 'react';
 
 import {
-  StyleSheet, 
-  View, 
-  Text, 
+  StyleSheet,
+  View,
+  Text,
   TextInput,
   TouchableOpacity,
 } from 'react-native';
 
 export function Home() {
-  const [text, setText] = useState('')
-  const [count, setCount] = useState('')
+  const [hour, setHour] = useState(0)
+  const [minute, setMinute] = useState(0)
+  const [second, setSecond] = useState(0)
+  const [mileSecond, setMileSecond] = useState(0)
+  
+  var timeStarted = 0
 
-  function handlerTaskInputText(){
-    if(text !== '' && Number(count) > 0){
-      setText('')
-      setCount('')
-      alert('ok!')
-    }else{
-      setText('')
-      setCount('')
-      alert('Please enter a task/valid number')
+  useEffect(() => {
+
+    function rodar(){
+
+      if(mileSecond > 99){
+        setSecond(second + 1)
+        setMileSecond(0)
+      }
+      if(second > 59){
+        setMinute(minute + 1)
+        setSecond(0)
+      }
+      if(minute > 59){
+        setHour(hour + 1)
+        setMinute(0)
+      }
+      if(hour > 24){
+        setHour(0)
+      }
     }
-  }
+    rodar()
+  }, [])
 
-  return(
+  function handleStart() {
+    
+  }
+  
+
+  return (
     <View style={styles.container}>
-      <Text style={styles.TitleContainer}>TaskController</Text>
-      <View style={styles.TextContainer}>
-        {/* um input pra pegar o nome da task */}
-        <TextInput
-          style={styles.taskName}
-          placeholder='Type your task here...'
-          onChangeText={setText}
-          value={text}
-        />
-        {/* um input pra pegar o tempo da task */}
-        <TextInput
-          style={styles.taskName}
-          keyboardType='number-pad'
-          onChangeText={setCount}
-          value={count}
-        />
-        {/* um botão pra chamar a função */}
+      <View style={styles.TimeContainer}>
+        <Text style={styles.timeName}>
+          {`${hour}:${minute}:${second}:${ + mileSecond}`}
+        </Text>
+      </View>
+
+      <View style={styles.btnContainer}>
         <TouchableOpacity
           style={styles.btn}
-          onPress={handlerTaskInputText}
+          onPress={handleStart}
         >
           <Text style={styles.btnText}>Start</Text>
         </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.btn}
+          onPress={() => alert('Stop')}
+        >
+          <Text style={styles.btnText}>Stop</Text>
+        </TouchableOpacity>
       </View>
-      
     </View>
   )
 }
@@ -64,36 +80,38 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
   },
-  TitleContainer: {
-    color: '#00b4fc',
-    fontSize: 30,
-    // fontFamily: 'Helvetica',
-    fontWeight: '600',
-    textAlign: 'center',
-    marginBottom: 10,
-  },
-  TextContainer: {
+  TimeContainer: {
     width: '90%',
     display: 'flex',
     alignSelf: 'center',
     justifyContent: 'center',
-    marginTop: 30,
+    marginBottom: 80,
   },
-  taskName: {
+  timeName: {
     backgroundColor: '#fff',
-    width: '100%',
+    width: '70%',
     height: 50,
+    padding: 2,
     borderRadius: 6,
-    paddingLeft: 6,
-    marginBottom: 15,
-    fontSize: 22,
+    fontSize: 36,
+    textAlign: 'center',
+    alignSelf: 'center',
+  },
+  btnContainer: {
+    marginTop: 30,
+    width: '80%',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignSelf: 'center',
   },
   btn: {
-    marginTop: 25,
-    width: '100%',
+    marginTop: 50,
+    width: '40%',
     height: 50,
     backgroundColor: '#012677',
-    borderRadius: 6,
+    borderRadius: 50,
+    alignSelf: 'center',
   },
   btnText: {
     color: '#fff',
