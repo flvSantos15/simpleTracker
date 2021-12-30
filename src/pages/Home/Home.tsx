@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {useState} from 'react';
+
 import {
   StyleSheet, 
   View, 
@@ -7,8 +8,22 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-
 export function Home() {
+  const [text, setText] = useState('')
+  const [count, setCount] = useState('')
+
+  function handlerTaskInputText(){
+    if(text !== '' && Number(count) > 0){
+      setText('')
+      setCount('')
+      alert('ok!')
+    }else{
+      setText('')
+      setCount('')
+      alert('Please enter a task/valid number')
+    }
+  }
+
   return(
     <View style={styles.container}>
       <Text style={styles.TitleContainer}>TaskController</Text>
@@ -17,15 +32,20 @@ export function Home() {
         <TextInput
           style={styles.taskName}
           placeholder='Type your task here...'
+          onChangeText={setText}
+          value={text}
         />
         {/* um input pra pegar o tempo da task */}
         <TextInput
           style={styles.taskName}
-          keyboardType='numeric'
+          keyboardType='number-pad'
+          onChangeText={setCount}
+          value={count}
         />
         {/* um botão pra chamar a função */}
         <TouchableOpacity
           style={styles.btn}
+          onPress={handlerTaskInputText}
         >
           <Text style={styles.btnText}>Start</Text>
         </TouchableOpacity>
