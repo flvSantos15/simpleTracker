@@ -1,20 +1,17 @@
 import React from 'react'
-import { NavigationContainer } from '@react-navigation/native'
 import { StatusBar } from 'react-native'
-
-import { Navigation } from './Navigation'
+import { Home } from './pages/Home/Home'
 
 export function Main(){
   return(
     <>
       <StatusBar
         barStyle='light-content'
-        backgroundColor='#000'
+        backgroundColor='#001449'
         translucent={true}
       />
-      <NavigationContainer>
-        <Navigation/>
-      </NavigationContainer>
+      <Home/>
     </>
   )
 }
+
